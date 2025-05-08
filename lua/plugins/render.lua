@@ -115,7 +115,7 @@ return {
     },
     completions = {
         -- Settings for blink.cmp completions source
-        blink = { enabled = false },
+        blink = { enabled = true },
         -- Settings for coq_nvim completions source
         coq = { enabled = false },
         -- Settings for in-process language server completions
