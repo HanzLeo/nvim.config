@@ -12,3 +12,7 @@ vim.api.nvim_create_autocmd("FileType", {
 local o = vim.o
 o.cursorlineopt ='both' -- to enable cursorline!
 
+-- 设置光标上下保留的行数（垂直居中）
+vim.opt.scrolloff = 999
+-- 设置光标左右保留的列数（水平居中，可选）
+-- vim.opt.sidescrolloff = 999

@@ -1,7 +1,7 @@
 return {
     "keaising/im-select.nvim",
     lazy = true,
-    ft = "markdown",
+    ft = {"markdown","tex","bib"},
     config = function()
         require('im_select').setup({
             -- IM will be set to `default_im_select` in `normal` mode
