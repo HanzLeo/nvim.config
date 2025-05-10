@@ -37,7 +37,7 @@ vim.opt.smartcase = true -- Case sensitivie searching.
 vim.opt.smartindent = false -- Smarter autoindentation.
 vim.opt.splitbelow = true -- Splitting a new window below the current one.
 vim.opt.splitright = true -- Splitting a new window at the right of the current one.
-vim.opt.tabstop = 2 -- Number of space in a tab.
+vim.opt.tabstop = 4 -- Number of space in a tab.
 
 vim.opt.termguicolors = true -- Enable 24-bit RGB color in the TUI.
 vim.opt.undofile = true -- Enable persistent undo between session and reboots.
@@ -84,3 +84,56 @@ vim.g.notifications_enabled = true -- Enable notifications.
 vim.g.semantic_tokens_enabled = true -- Enable lsp semantic tokens at start.
 vim.g.url_effect_enabled = true -- Highlight URLs with an underline effect.
 
+
+-- neovide cursor
+vim.g.neovide_cursor_animation_length = 0.1
+vim.g.neovide_cursor_trail_size = 0.5
+vim.g.neovide_scroll_animation_length = 0.3
+-- vim.g.neovide_cursor_vfx_mode = "pixiedust"
+-- vim.g.neovide_cursor_vfx_mode = "torpedo"
+vim.g.neovide_cursor_vfx_particle_density = 100.0
+
+vim.g.neovide_scroll_speed = 3.0  -- 默认值为 1.0，增大加快滚动
+
+vim.g.neovide_floating_shadow = true
+vim.g.neovide_input_ime = true
+vim.g.neovide_hide_mouse_when_typing = true
+
+-- 继承设置
+local opt = vim.opt
+
+opt.guifont = { "Maple Mono NF CN", ":h16" }
+-- opt.guifont = {"CaskaydiaCove Nerd Font", "Source Han Sans CN", "微软雅黑", "Maple Mono SC NF", ":h12" }
+opt.guicursor =
+  "n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50,a:blinkwait0-blinkoff0-blinkon0-Cursor/lCursor,sm:block-blinkwait0-blinkoff0-blinkon0"
+opt.textwidth = 0
+opt.wrapmargin = 1
+opt.formatoptions:append("t")
+opt.formatoptions:remove("l")
+
+-- 设置 visual 模式下选中的背景高亮色
+vim.cmd("highlight Visual guibg=#135564")
+
+-- 设置光标的颜色默认为拉姆的发(fà)色
+vim.cmd("highlight Cursor gui=NONE guifg=bg guibg=#ffb6c1")
+
+-- hop
+-- 设置单字符高亮的颜色为 notion 中的暗色模式下的砖红色
+vim.api.nvim_command("highlight HopNextKey guifg=#FF7369 guibg=none gui=none ctermfg=none cterm=bold")
+
+-- 解决 python 在定义函数参数时按下 : 会自动缩进的问题
+vim.api.nvim_command("set indentkeys-=<:>")
+
+-- 动态控制neovide字体大小
+if vim.g.neovide then
+    vim.keymap.set({ "n", "v" }, "<C-+>", ":lua vim.g.neovide_scale_factor = vim.g.neovide_scale_factor + 0.1<CR>")
+    vim.keymap.set({ "n", "v" }, "<C-->", ":lua vim.g.neovide_scale_factor = vim.g.neovide_scale_factor - 0.1<CR>")
+    vim.keymap.set({ "n", "v" }, "<C-0>", ":lua vim.g.neovide_scale_factor = 1<CR>")
+end
+
+
+-- 将分号映射为冒号 (Normal模式)
+vim.keymap.set('n', ';', ':', { noremap = true })
+
+-- 如果你还想保留分号的原始功能，可以将冒号映射为分号
+-- vim.keymap.set('n', ':', ';', { noremap = true })
