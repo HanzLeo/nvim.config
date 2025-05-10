@@ -1,37 +1,48 @@
-vim.g.base46_cache = vim.fn.stdpath "data" .. "/base46/"
-vim.g.mapleader = " "
+-- HELLO, welcome to NormalNvim!
+-- ---------------------------------------
+-- This is the entry point of your config.
+-- ---------------------------------------
 
--- bootstrap lazy and all plugins
-local lazypath = vim.fn.stdpath "data" .. "/lazy/lazy.nvim"
-
-if not vim.uv.fs_stat(lazypath) then
-  local repo = "https://github.com/folke/lazy.nvim.git"
-  vim.fn.system { "git", "clone", "--filter=blob:none", repo, "--branch=stable", lazypath }
+local function load_source(source)
+  local status_ok, error = pcall(require, source)
+  if not status_ok then
+    vim.api.nvim_echo(
+      {{"Failed to load " .. source .. "\n\n" .. error}}, true, {err = true}
+    )
+  end
 end
 
-vim.opt.rtp:prepend(lazypath)
+local function load_sources(source_files)
+  vim.loader.enable()
+  for _, source in ipairs(source_files) do
+    load_source(source)
+  end
+end
 
-local lazy_config = require "configs.lazy"
+local function load_sources_async(source_files)
+  for _, source in ipairs(source_files) do
+    vim.defer_fn(function()
+      load_source(source)
+    end, 50)
+  end
+end
 
--- load plugins
-require("lazy").setup({
-  {
-    "NvChad/NvChad",
-    lazy = false,
-    branch = "v2.5",
-    import = "nvchad.plugins",
-  },
+local function load_colorscheme(colorscheme)
+    if vim.g.default_colorscheme then
+      if not pcall(vim.cmd.colorscheme, colorscheme) then
+        require("base.utils").notify(
+          "Error setting up colorscheme: " .. colorscheme,
+          vim.log.levels.ERROR
+        )
+      end
+    end
+end
 
-  { import = "plugins" },
-}, lazy_config)
-
--- load theme
-dofile(vim.g.base46_cache .. "defaults")
-dofile(vim.g.base46_cache .. "statusline")
-
-require "options"
-require "nvchad.autocmds"
-
-vim.schedule(function()
-  require "mappings"
-end)
+-- Call the functions defined above.
+load_sources({
+  "base.1-options",
+  "base.2-lazy",
+  "base.3-autocmds", -- critical stuff, don't change the execution order.
+})
+load_colorscheme(vim.g.default_colorscheme)
+load_sources_async({ "base.4-mappings" })
