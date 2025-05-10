@@ -1642,5 +1642,3 @@ end
 
 utils.set_mappings(maps)
 return M
-
-
