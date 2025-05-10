@@ -17,17 +17,17 @@ vim.opt.scrolloff = 999
 -- 设置光标左右保留的列数（水平居中，可选）
 -- vim.opt.sidescrolloff = 999
 
-  vim.opt.linespace = 2
-  -- 启用抗锯齿和动画
+vim.opt.linespace = 2
+-- 启用抗锯齿和动画
 -- neovide cursor 
-  vim.g.neovide_cursor_animation_length = 0.1
-  vim.g.neovide_cursor_trail_size = 0.5
-  vim.g.neovide_scroll_animation_length = 0.3
-  vim.g.neovide_cursor_vfx_mode = "pixiedust"
-  -- vim.g.neovide_cursor_vfx_mode = "torpedo"
-  vim.g.neovide_cursor_vfx_particle_density = 100.0
+vim.g.neovide_cursor_animation_length = 0.1
+vim.g.neovide_cursor_trail_size = 0.5
+vim.g.neovide_scroll_animation_length = 0.3
+-- vim.g.neovide_cursor_vfx_mode = "pixiedust"
+-- vim.g.neovide_cursor_vfx_mode = "torpedo"
+vim.g.neovide_cursor_vfx_particle_density = 100.0
 
-  vim.g.neovide_scroll_speed = 3.0  -- 默认值为 1.0，增大加快滚动
+vim.g.neovide_scroll_speed = 3.0  -- 默认值为 1.0，增大加快滚动
 
 vim.g.neovide_floating_shadow = true
 vim.g.neovide_input_ime = true
@@ -47,3 +47,17 @@ opt.list = true
 opt.listchars = { space = "·" }
 opt.cinkeys = "0{,0},0),0],0#,!^F,o,O,e"
 opt.indentkeys = "0{,0},0),0],0#,!^F,o,O,e"
+
+
+-- 设置 visual 模式下选中的背景高亮色
+vim.cmd("highlight Visual guibg=#135564")
+
+-- 设置光标的颜色默认为拉姆的发(fà)色
+vim.cmd("highlight Cursor gui=NONE guifg=bg guibg=#ffb6c1")
+
+-- hop
+-- 设置单字符高亮的颜色为 notion 中的暗色模式下的砖红色
+vim.api.nvim_command("highlight HopNextKey guifg=#FF7369 guibg=none gui=none ctermfg=none cterm=bold")
+
+-- 解决 python 在定义函数参数时按下 : 会自动缩进的问题
+vim.api.nvim_command("set indentkeys-=<:>")
