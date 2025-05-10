@@ -47,7 +47,10 @@ opt.list = true
 opt.listchars = { space = "·" }
 opt.cinkeys = "0{,0},0),0],0#,!^F,o,O,e"
 opt.indentkeys = "0{,0},0),0],0#,!^F,o,O,e"
-
+opt.textwidth = 0
+opt.wrapmargin = 1
+opt.formatoptions:append("t")
+opt.formatoptions:remove("l")
 
 -- 设置 visual 模式下选中的背景高亮色
 vim.cmd("highlight Visual guibg=#135564")
@@ -61,3 +64,13 @@ vim.api.nvim_command("highlight HopNextKey guifg=#FF7369 guibg=none gui=none cte
 
 -- 解决 python 在定义函数参数时按下 : 会自动缩进的问题
 vim.api.nvim_command("set indentkeys-=<:>")
+
+-- 动态控制neovide字体大小
+if vim.g.neovide then
+    vim.keymap.set({ "n", "v" }, "<C-+>", ":lua vim.g.neovide_scale_factor = vim.g.neovide_scale_factor + 0.1<CR>")
+    vim.keymap.set({ "n", "v" }, "<C-->", ":lua vim.g.neovide_scale_factor = vim.g.neovide_scale_factor - 0.1<CR>")
+    vim.keymap.set({ "n", "v" }, "<C-0>", ":lua vim.g.neovide_scale_factor = 1<CR>")
+end
+
+-- 设置文本换行相关选项
+
